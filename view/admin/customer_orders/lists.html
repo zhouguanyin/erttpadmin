@@ -1,0 +1,201 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>首页 客户下单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/public/static/spectre-0.5.7/dist/spectre.min.css">
+    <link rel="stylesheet" href="/public/static/admin/css/coupon_new.css">
+    <link rel="stylesheet" href="/public/static/layui/css/layui.css">
+    <script src="/public/static/layDate-v5.0.9/laydate/laydate.js"></script>
+
+</head>
+<body>
+<div class="main">
+<!-- <div class="current_location">
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">客户下单管理</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">客户下单管理列表</a>
+        </li>
+    </ul>
+</div> -->
+<div class="demoTable" style="margin-top: 15px;">
+    <form class="layui-form" action="" style="float: left;">
+    状态：
+    <div class="layui-inline">
+        <select name="is_invoice" lay-verify="" id="sel">
+            <option value="" >全部</option>
+            <option value="1" {{ d.is_invoice == 1 ? 'selected' : '' }}>已开票</option>
+            <option value="2" {{ d.is_invoice != 1 ? 'selected' : '' }}>未开票</option>
+            <option value="3" {{ d.is_invoice != 1 ? 'selected' : '' }}>开票信息错误</option>
+        </select>
+    </div>
+    </form>
+    &nbsp;申请时间范围：
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="test6" placeholder=" - " value="" readonly />
+    </div>
+    &nbsp;
+    
+    <div class="layui-inline">
+        <input class="layui-input" name="mobile" id="mobileReload" autocomplete="off" value="" placeholder="搜索用户手机" />
+    </div>
+    &nbsp;
+    <div class="layui-inline">
+        <input class="layui-input" name="rcode" id="rcodeReload" autocomplete="off" value="" placeholder="搜索订单编码" />
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+
+    <div style="float:right">
+        <a class="layui-btn" id="add">客户下单添加</a>
+    </div>
+    <!-- <div style="float:right">
+        <button class="layui-btn" id="addAdwords">客户下单添加</button>
+    </div> -->
+</div>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <!-- <a class="layui-btn layui-btn-xs"  lay-event="show" order_type="{{d.order_type}}"  DJBH="{{d.DJBH}}" order_sn="{{d.order_sn}}" invoice_id="{{d.id}}">详情</a> -->
+    <a class="layui-btn layui-btn-xs"  lay-event="show_edit" customer_orders_id="{{d.id}}">编辑查看</a>
+</script>
+    <style>
+        .layui-table-cell{
+            height:auto;
+        }
+        .layui-table-cell {
+            height: auto; 
+            line-height: 28px;
+            padding: 0 15px;
+            position: relative;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            box-sizing: border-box;
+          }
+    </style>
+</div>
+<script src="/public/static/layui/layui.js"></script>
+<script type="text/javascript" src="/public/static/admin/js/jquery.min.js"></script>
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table
+            ,form = layui.form;
+
+        table.render({
+            elem: '#test'
+            ,limit: 10
+            ,url:"{:Url('customer_orders/lists')}"
+            ,cellMinWidth: 100
+            ,cols: [[
+                {type:'numbers'}
+                // ,{type: 'checkbox'}
+                // ,{field:'id', title:'用户手机', width:100, unresize: true, sort: true}
+                // ,{field:'creator_id', title:'制单人',toolbar: '#creator_id',align:'center'}
+                ,{field:'creator_name', title:'制单人',align:'center'}
+                ,{field:'customer_no', title:'订单编码',align:'center'}
+                ,{field:'customer_name', title:'客户名称',align:'left'}
+                ,{field:'order_type_id', title:'单据类型',align:'center'}
+                ,{field:'order_type_explain', title:'类型说明',align:'center'}
+                ,{field:'sales_wechat', title:'销售微信',align:'center'}
+                // ,{field:'order_status', title:'单据状态',align:'center'}
+                // ,{field:'express_type_id', title:'快递类型',align:'center'}
+                // ,{field:'insured', title:'货物保价',align:'center'}
+                // ,{field:'advert_id', title:'广告ID',align:'center'}
+                ,{field:'information', title:'情况说明',align:'center'}
+                ,{field:'customer_mobile', title:'客户电话',align:'center'}
+                ,{field:'customer_wechat', title:'客户微信',align:'center'}
+                // ,{field:'booking_time', title:'预约发货时间',align:'center',width:120}
+                // ,{field:'fans_time', title:'加粉时间',align:'center'}
+                // ,{field:'freight', title:'运费',align:'center'}
+                ,{field:'description', title:'备注',align:'center'}
+                ,{field:'order_amount', title:'订单金额',align:'center'}
+                // ,{field:'discount_amount', title:'折扣金额',align:'center'}
+                // ,{field:'payment_amount', title:'应收金额',align:'center'}
+                // ,{field:'beforehand_amount', title:'预收款',align:'center'}
+                // ,{field:'beforehand_amount_type', title:'预收方式',align:'center'}
+                // ,{field:'collection_amount', title:'代收款',align:'center'}
+                // ,{field:'paid_amount', title:'实收款',align:'center'}
+                // ,{field:'commission', title:'手续费',align:'center'}
+                // ,{field:'discoun_card', title:'优惠卡号',align:'center'}
+                ,{field:'reviewer_id', title:'审核人',align:'center'}
+                ,{field:'reviewer_status', title:'审核状态',align:'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+            ]]
+            ,page: true
+            ,id: 'testReload'
+        });
+        
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var that = $(this);
+            var data = obj.data;
+            var customer_orders_id = $(this).attr('customer_orders_id')
+   
+            if(obj.event === 'show_edit'){
+                window.location.href="{:Url('customer_orders/show_edit')}?customer_orders_id="+customer_orders_id; 
+            }
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var mobileReload = $('#mobileReload');
+                var rcodeReload = $('#rcodeReload');
+                var test6 = $('#test6');
+                var sel = $('#sel');
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            mobile: mobileReload.val(),
+                            rcode: rcodeReload.val(),
+                            dui_time: test6.val(),
+                            is_invoice: sel.val()
+                        }
+                    }
+                });
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        laydate.render({
+            elem: '#test6'
+            ,range: true
+        });
+    });
+
+    $("#add").click(function(){
+        // window.location.href="{:Url('Option/optionAdd')}";
+        //iframe层
+        layer.open({
+          type: 2,
+          title: '添加客户下单',
+          shadeClose: true,
+          shade: 0.8,
+          area: ['80%', '90%'],
+          content: "{:Url('customer_orders/add')}"//iframe的url
+        }); 
+    });
+
+   /* $("#add").click(function(){
+        window.location.href="{:Url('customer_orders/add')}";
+    });*/
+
+</script>
+</body>
+</html>

@@ -1,0 +1,468 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>新增客户下单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/public/static/spectre-0.5.7/dist/spectre.min.css">
+    <link rel="stylesheet" href="/public/static/admin/css/coupon_new.css">
+    <link rel="stylesheet" href="/public/static/layui/css/layui.css">
+    <script src="/public/static/layDate-v5.0.9/laydate/laydate.js"></script>
+    <style>
+        .layui-col-md9 input{width:86%;display:inline-block;}
+        .layui-col-md2{width:14%;display:inline-block;}
+        .layui-col-md2 input{width:60%;display:inline-block;}
+        .options .layui-input-block{margin-top: 18px;}
+    </style>
+
+</head>
+<body>
+<div class="main">
+    <div class="current_location">
+        <!-- <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/admin/question_bank/index.html">新增客户下单</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="javascript:;">新增客户下单</a>
+            </li>
+        </ul> -->
+    </div>
+
+
+    <form class="layui-form" lay-filter="add_order" style="margin-top: 30px"  >
+        <!-- <div class="layui-form-item">
+            <label class="layui-form-label">客户</label>
+            <div class="layui-input-inline">
+              <select name="store_id" id="store_id">
+                    <option value="">请选择客户</option>
+                    {volist name="data.customer" id="vo"}
+                        <option value="{$vo.id}">{$vo.customer_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div> -->
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">客户ID</label>
+            <div class="layui-input-block">
+                <input type="text" id="customer_id" name="customer_id" autocomplete="off" placeholder="请输入客户ID" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">单据类型</label>
+            <div class="layui-input-inline">
+              <select name="order_type_id" id="order_type_id">
+                    <option value="">请选择单据类型</option>
+                    {volist name="data.order_type" id="vo"}
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型说明</label>
+            <div class="layui-input-block">
+                <input type="text" id="order_type_explain" name="order_type_explain" autocomplete="off" placeholder="请输入类型说明" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">快递</label>
+            <div class="layui-input-inline">
+              <select name="express_type_id" id="express_type_id">
+                    <option value="">请选择单据类型</option>
+                    {volist name="data.express_type" id="vo"}
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">国家</label>
+            <div class="layui-input-inline">
+              <select name="country_id" id="country_id">
+                    {volist name="data.country" id="vo"}
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择地址</label>
+            <div class="layui-inline">
+                <!-- <label class="layui-form-label width_auto text-r" style="margin-top:2px">省市县：</label> -->
+                <div class="layui-input-inline" style="width:400px">
+                    <input type="text" autocomplete="on" class="layui-input" id="city_picker" name="city_picker" readonly="readonly" data-toggle="city_picker" placeholder="请选择"  lay-filter="city_picker">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">详细地址</label>
+            <div class="layui-input-block">
+                <input type="text" id="address" name="address" autocomplete="off" placeholder="请输入详细地址" class="layui-input" value="">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">销售微信</label>
+            <div class="layui-input-block">
+                <input type="text" id="sales_wechat" name="sales_wechat" autocomplete="off" placeholder="请输入销售微信" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">客户微信</label>
+            <div class="layui-input-block">
+                <input type="text" id="customer_wechat" name="customer_wechat" autocomplete="off" placeholder="请输入客户微信" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" id="description" name="description" autocomplete="off" placeholder="请输入备注" class="layui-input" value="">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">预约发货</label>
+            <div class="layui-input-block">
+              <input type="text" class="layui-input" id="test7" name="booking_time" placeholder=" - " value="" readonly >
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">加粉时间</label>
+            <div class="layui-input-block">
+              <input type="text" class="layui-input" id="test8" name="fans_time" placeholder=" - " value="" readonly >
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">已选择的商品</label>
+            <div class="layui-input-block">
+                <table class="layui-hide" id="goods_temporary" lay-filter="goods_temporary"></table>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">请选择商品</label>
+            <div class="layui-input-block">
+            <div class="layui-inline">
+                <input class="layui-input" name="goods_name" id="goods_name_search" autocomplete="off" placeholder="请输入商品名称">
+                </div>
+                <!-- <button class="layui-btn" data-type="reload"></button> -->
+                <button type="button" class="layui-btn goods_search" data-type="reload">搜索</button>
+                <table class="layui-hide" id="goods_all" lay-filter="goods_all"></table>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单全额</label>
+            <div class="layui-input-block">
+                <input type="text" id="order_amount" name="order_amount" autocomplete="off" placeholder="请输入金额" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">运费</label>
+            <div class="layui-input-block">
+                <input type="text" id="freight" name="freight" autocomplete="off" placeholder="请输入运费" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">整单折扣</label>
+            <div class="layui-input-block">
+                <input type="text" id="discount_amount" name="discount_amount" autocomplete="off" placeholder="请输入整单折扣金额" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">应收全额</label>
+            <div class="layui-input-block">
+                <input type="text" id="payment_amount" name="payment_amount" autocomplete="off" placeholder="请输入应收全额" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">预收款</label>
+            <div class="layui-input-block">
+                <input type="text" id="beforehand_amount" name="beforehand_amount" autocomplete="off" placeholder="请输入预收款" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">预收方式</label>
+            <div class="layui-input-inline">
+              <select name="beforehand_amount_type" id="beforehand_amount_type">
+                    <option value="">请选择预收方式</option>
+                    {volist name="data.beforehand_amount_type" id="vo"}
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">代收款</label>
+            <div class="layui-input-block">
+                <input type="text" id="collection_amount" name="collection_amount" autocomplete="off" placeholder="请输入代收款" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">优惠卡号</label>
+            <div class="layui-input-block">
+                <input type="text" id="discoun_card" name="discoun_card" autocomplete="off" placeholder="请输入优惠卡号" class="layui-input" value="">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn btnsubmit" lay-submit="" lay-filter="demo1">立即提交</button>
+                <a class="layui-btn" style="color:#fff;" href="/customer_orders/index.html">返回</a>
+            </div>
+        </div>
+    </form>
+
+    <div style="margin-top: 300px"></div>
+</div>
+<script type="text/html" id="temporary">
+    <a class="layui-btn layui-btn-xs layui-btn-danger"  lay-event="del" temporary_goods_id = "{{d.id}}" goods_name = "{{d.goods_name}}">删除</a>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs"  lay-event="add" goods_id = "{{d.id}}" goods_name = "{{d.goods_name}}">添加</a>
+</script>
+<style>
+    .layui-input, .layui-textarea{
+        width:96%;
+
+    }
+    .layui-form-label{
+        width: 115px;
+    }
+</style>
+<script src="/public/static/layui/layui.js"></script>
+<script type="text/javascript" src="/public/static/admin/js/jquery.min.js"></script>
+<script src="/LayuiAdmin/layui/layui_exts/city-picker/city-picker.data.js"></script>
+<link href="/LayuiAdmin/layui/layui_exts/city-picker/city-picker.css" rel="stylesheet" />
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var _goodsTemporarPage=1;
+    var _goodsAllPage=1;
+    var _page = 1;
+    layui.config({
+            base: '/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'layui/layui_exts/city-picker/city-picker' //主入口模块
+            , citypicker: '{/}/layuiadmin/layui/layui_exts/city-picker/city-picker' // {/}的意思即代表采用自有路径，即不跟随 base 路径
+        }).use(['form', 'layedit', 'upload','jquery', 'table', 'citypicker'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,table = layui.table
+            , cityPicker = layui.citypicker
+            ,upload = layui.upload;
+
+        var currentPicker = new cityPicker("#city_picker", {
+            provincename:"provinceId",
+            cityname:"cityId",
+            districtname: "districtId",
+            level: 'districtId',// 级别
+        });
+
+        // currentPicker.setValue("河南省/信阳市/新县");
+
+        //选择的商品
+        table.render({
+            elem: '#goods_temporary'
+            ,limit: 5
+            ,url:"{:Url('customer_orders/get_temporary_goods')}"
+            ,cellMinWidth: 80
+            ,cols: [[
+                {type:'numbers'}
+                ,{field:'goods_id', title:'商品ID', align:'center'}
+                ,{field:'goods_name', title:'商品名称',align:'center'}
+                ,{field:'spec_id', title:'规格', align:'center'}
+                ,{field:'unit_id', title:'单位', align:'center'}
+                ,{field:'price', title:'单价', align:'center'}
+                ,{field:'order_quantity', title:'数量', align:'center'}
+                ,{field:'sales_amount', title:'销售金额', align:'center'}
+                ,{field:'discount_amount', title:'折扣金额', align:'center'}
+                ,{field:'payment_amount', title:'实销金额', align:'center'}
+                ,{fixed: 'right', title:'操作', align:'center', toolbar: '#temporary',width:150}
+            ]]
+            ,page: true
+            ,id: 'goodsTemporaryReload'
+            ,done: function(res,curr,count){
+                _testPage = curr;
+            }
+        });
+
+
+        table.render({
+            elem: '#goods_all'
+            ,limit: 10
+            ,url:"{:Url('customer_orders/get_all_goods')}"
+            ,cellMinWidth: 80
+            ,cols: [[
+                 {type: 'numbers'},
+                ,{field:'id', title:'商品id',width:'20px'}
+                ,{field:'goods_name', title:'商品名称', align:'center'}
+                ,{field:'goods_small_name', title:'商品简称', align:'center'}
+                ,{field:'spec_id', title:'规格', align:'center'}
+                ,{field:'unit_id', title:'单位', align:'center'}
+                ,{field:'price', title:'售价', align:'center'}
+                ,{field:'lowest_price', title:'最低售价', align:'center'}
+                ,{field:'highest_selling_price', title:'最高售价', align:'center'}
+                ,{field:'remark', title:'备注', align:'center'}
+                ,{fixed:'right', title:'操作', align:'center',toolbar: '#barDemo'}
+            ]]
+            ,page: true
+            ,id: 'goodsReloadqqq'
+            ,done: function(res,curr,count){
+                _temporaryPage = curr;
+            }
+        });
+
+        $('.goods_search').click(function () {
+            var goods_name = $('#goods_name_search');
+            table.reload('goodsReloadqqq', {
+              url: "{:Url('customer_orders/get_all_goods')}"
+              ,where: {
+                goods_name : goods_name.val()
+              } //设定异步数据接口的额外参数
+              //,height: 300
+            });
+        });
+
+        //监听行工具事件
+        table.on('tool(goods_all)', function(obj){
+            var data = obj.data;
+            var goods_id = $(this).attr('goods_id');
+            var goods_name = $(this).attr('goods_name');
+
+            if(obj.event === 'add'){
+                layer.confirm('是否添加《'+goods_name+'》商品', function(index){
+                    $.ajax({
+                        type: "GET",
+                        url: "{:Url('customer_orders/add_goods')}",
+                        data: {goods_id:goods_id},
+                        dataType: "json",
+                        success: function(data){
+                            if(data.code == '100'){
+                                table.reload('goodsTemporaryReload', {
+                                    page: {
+                                        curr:_goodsTemporarPage //重新从第 1 页开始
+                                    }
+                                });
+                                layer.msg('添加《'+goods_name+'》商品成功！');
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        table.on('tool(goods_temporary)', function(obj){
+            var data = obj.data;
+            var goods_name = $(this).attr('goods_name');
+            var temporary_goods_id = $(this).attr('temporary_goods_id');
+            if(obj.event === 'del'){
+               layer.confirm('是否删除《'+goods_name+'》商品', function(index){
+                    $.ajax({
+                        type: "GET",
+                        url: "{:Url('customer_orders/del_goods')}",
+                        data: {temporary_goods_id:temporary_goods_id},
+                        dataType: "json",
+                        success: function(data){
+                            if(data.code == '100'){
+                                table.reload('goodsTemporaryReload', {
+                                    page: {
+                                        curr:_goodsTemporarPage //重新从第 1 页开始
+                                    }
+                                });
+                                layer.msg('删除《'+goods_name+'》商品成功！');
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        //时间选择
+        laydate.render({
+            elem: '#test7',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#test8',
+            type: 'datetime'
+        });
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            console.log(data.field);
+            post_data = JSON.stringify(data.field);
+            /*
+            {
+                    address:post_data.address,
+                    beforehand_amount:post_data.beforehand_amount,
+                    beforehand_amount_type:post_data.beforehand_amount_type,
+                    booking_time:post_data.booking_time,
+                    city_picker:post_data.city_picker,
+                    city_id:post_data.cityId,
+                    collection_amount:post_data.collection_amount,
+                    country_id:post_data.country_id,
+                    customer_id:post_data.customer_id,
+                    customer_wechat:post_data.customer_wechat,
+                    description:post_data.description,
+                    discoun_card:post_data.discoun_card,
+                    discount_amount:post_data.discount_amount,
+                    district_id:post_data.districtId,
+                    express_type_id:post_data.express_type_id,
+                    fans_time:post_data.fans_time,
+                    freight:post_data.freight,
+                    order_amount:post_data.order_amount,
+                    order_type_explain:post_data.order_type_explain,
+                    order_type_id:post_data.order_type_id,
+                    payment_amount:post_data.payment_amount,
+                    province_id:post_data.provinceId,
+                    sales_wechat:post_data.sales_wechat,
+                }
+             */
+            post_data = data.field;
+            $.ajax({
+                type: "post",
+                url: "{:Url('customer_orders/add')}",
+                data:post_data,
+                dataType: "json",
+                success: function(data){
+                    if(data.code==1000){
+                        console.log(123);
+                        window.location.href="{:Url('customer_orders/index')}";
+
+                    }else{
+                        layer.alert(data.msg);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
